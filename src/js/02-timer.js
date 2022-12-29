@@ -12,6 +12,7 @@ const refs = {
 }
 
 let intervalId = null;
+let backTime;
 
 startBtn.disabled = true;
 
@@ -38,13 +39,16 @@ startBtn.addEventListener('click', onStartBtnTime);
 
 function onStartBtnTime(){
   intervalId = setInterval( () => {
-    const backTime = flatPic.selectedDates[0] - new Date();
+
+    backTime = flatPic.selectedDates[0] - new Date();
+    const dataUpdateTime = convertMs(backTime);
+    updateClock(dataUpdateTime);
+    
     if (backTime === 0) {
       clearInterval(intervalId);
     }
-    console.log(backTime);
     
-  }, 1000);
+  }, 0);
 }
 
 function convertMs(ms) {
@@ -55,15 +59,24 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const days = addLeadingZero(Math.floor(ms / day));
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs())
+function updateClock({ days, hours, minutes, seconds }) {
+    refs.second.textContent = seconds;
+    refs.minute.textContent = minutes;
+    refs.hours.textContent = hours;
+    refs.days.textContent = days;
+}
+
+function addLeadingZero(value) {
+    return String(value).padStart(2, '0');
+}
