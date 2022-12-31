@@ -53,11 +53,11 @@ function onStartBtnTime(){
     const dataUpdateTime = convertMs(backTime);
     updateClock(dataUpdateTime);
     
-    if (backTime === 0) {
+    if (backTime <= 0) {
       clearInterval(intervalId);
     }
     
-  }, 0);
+  }, 1000);
 }
 
 function convertMs(ms) {
