@@ -36,9 +36,12 @@ const options = {
            clickToClose: true,
            width: '300px',
         });
+        startBtn.disabled = true;
+      }else{
+        startBtn.disabled = false;
       }
 
-      startBtn.disabled = false;
+      
     },
   };
 
@@ -50,14 +53,16 @@ function onStartBtnTime(){
   intervalId = setInterval( () => {
 
     backTime = flatPic.selectedDates[0] - new Date();
+    console.log(backTime);
     const dataUpdateTime = convertMs(backTime);
     updateClock(dataUpdateTime);
-    
-    if (backTime <= 0) {
+
+    if (backTime < 1000 ) {
       clearInterval(intervalId);
     }
     
   }, 1000);
+
 }
 
 function convertMs(ms) {
