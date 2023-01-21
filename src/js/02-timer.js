@@ -40,8 +40,6 @@ const options = {
       }else{
         startBtn.disabled = false;
       }
-
-      
     },
   };
 
